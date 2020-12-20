@@ -1,0 +1,2 @@
+To run the project deployed in AWS EC2 instance:
+Go to browser, enter 3.90.239.173:8000
