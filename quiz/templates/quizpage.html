@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quiz Application</title>
+    <link rel = "stylesheet" href = "{% static 'css/quizpage.css' %}">
+    <style>
+        body{
+            background: #bdf0db;
+            color:#0c0c0c;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+        }
+        #container{
+            width: 50%;
+            background: #fcfabf;
+            margin: 20px auto;
+            overflow: auto;
+            padding: 25px;
+        }
+        
+    </style>
+<!--    <script src = "{% static 'js/quiz.js' %}"></script> -->
+<script>
+        
+function submitAnswers(answers){
+
+	var count = answers.length;
+	var score = 0;
+	var choice = []
+
+	for(var i = 1; i <= count; i++){
+		
+		choice[i] = document.forms["quizForm"]["q"+i].value;
+	}
+ 
+	for(i = 1; i <= count; i++){
+		if(choice[i] == null || choice[i] == ''){
+			alert('You missed question : ' + i);
+			return false;
+		}
+	}
+
+	for(i = 1; i <= count; i++){
+		if(choice[i] == answers[i-1]){
+			score++;
+		}
+	}
+
+//	var results = document.getElementById('results');
+//	results.innerHTML = "<h2><b>Congratulations, You have scored " + score + " out of " + count + "</b></h2>"
+	document.getElementById('results').innerHTML = "<h2><b>Congratulations, You have scored " + score + " out of " + count + "</b></h2>"
+	return false;
+}
+</script>
+</head>
+<body>
+	<div id = "container">
+        <h1>Multiple Choice Questions</h1>
+			
+			<form name = "quizForm" onsubmit = "return submitAnswers(answers = [{% for q in questions %}'{{ q.answer }}',{% endfor %}])">
+            {% csrf_token %}
+            {% for q in questions %}
+				<h3> {{ q.id }}.  {{ q.question }}</h3>
+				<input type = "radio" name = "q{{ q.id }}" value = "{{ q.option1 }}">   A. {{ q.option1 }}<br><br>
+				<input type = "radio" name = "q{{ q.id }}" value = "{{ q.option2 }}">   B. {{ q.option2 }}<br><br>       
+				<input type = "radio" name = "q{{ q.id }}" value = "{{ q.option3 }}">   C. {{ q.option3 }}<br><br>
+				<input type = "radio" name = "q{{ q.id }}" value = "{{ q.option4 }}">   D. {{ q.option4 }}<br><br>		
+			{% endfor %}
+				<br><br>
+                <center><input type = "submit" id = "submitButton" value = "SUBMIT ANSWERS">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type = "reset" value = "RESET"></center><br>
+            
+                <center><h2><div id = "results" style= "color:darkred;" >All the Best! </div></h2></center>
+             
+			</form>
+	</div>
+
+</body>
+</html>

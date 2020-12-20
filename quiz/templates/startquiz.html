@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quiz Application</title>
+    
+    <style>
+        body{
+            background: #bdf0db;
+            color:#0c0c0c;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+        }
+        #container{
+            width: 50%;
+            background: #fcfabf;
+            margin: 20px auto;
+            overflow: auto;
+            padding: 25px;
+        }
+        
+    </style>
+
+</head>
+<body>
+	<div id = "container">
+        <center>
+        <h1>Hi {{name}}</h1>
+        <h2>Click to Start the Online QUIZ!</h2>
+			<form name = "startquizForm" method="post" action="quizpage">
+            {% csrf_token %}
+            	<input type = "submit" value = "START QUIZ">
+            </form>
+        </center>
+	</div>
+
+</body>
+</html>
